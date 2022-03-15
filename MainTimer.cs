@@ -10,13 +10,20 @@ namespace AutomatedVehicleIntegrationV2
     public class MainTimer
     {
         public event GlobalTickHandler GlobalTick;
-        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-        public MainTimer()
-        {
-            timer.Tick += new EventHandler(TimerTick);
-        }
 
-        private void TimerTick(object sender, EventArgs e) => GlobalTick();
+        private const int tickInterval = 1000; // ms
+
+        public MainTimer() => StartTicking();
+
+        private async void StartTicking()
+        {
+            while (true)
+            {
+                await Task.Delay(tickInterval);
+                GlobalTick();
+            }
+
+        }
 
     }
 }

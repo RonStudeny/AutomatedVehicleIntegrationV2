@@ -20,6 +20,8 @@ namespace AutomatedVehicleIntegrationV2
         public MainWindow()
         {
             InitializeComponent();
+            MainTimer mainTimer = new MainTimer();
+            ControlCenter controlCenter = new ControlCenter(mainTimer);
         }
     }
 }
