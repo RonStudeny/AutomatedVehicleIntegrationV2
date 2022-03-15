@@ -8,6 +8,8 @@ namespace AutomatedVehicleIntegrationV2
 {
     public class Car
     {
+        public event CarUpdateHandler CarFinishedEvent;
+
         #region fields
         private double speedKmh;
         private double routeProgressPercent;
@@ -42,6 +44,18 @@ namespace AutomatedVehicleIntegrationV2
         #endregion
 
         public enum RoadTypes { Normal, Highway, Tunnel, Bridge };
+
+        private void OnTick()
+        {
+            MoveCar();
+        }
+
+        private void MoveCar()
+        {
+            RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
+            if (RouteProgress >= RouteLength) CarFinishedEvent(this.CarId);
+
+        }
 
     }
 }

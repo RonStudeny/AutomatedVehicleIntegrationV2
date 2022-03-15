@@ -11,8 +11,6 @@ namespace AutomatedVehicleIntegrationV2
         Random rng = new Random();
         public static Weather currentWeather;
 
-        private const int chances = 100;
-
         public WeatherCenter(MainTimer t)
         {
             t.GlobalTick += OnTick; // subscribe timer

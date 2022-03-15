@@ -8,6 +8,7 @@ using System.Diagnostics;
 namespace AutomatedVehicleIntegrationV2
 {
     public delegate void GlobalTickHandler();
+    public delegate void CarUpdateHandler(Guid carId);
 
     public class ControlCenter
     {
