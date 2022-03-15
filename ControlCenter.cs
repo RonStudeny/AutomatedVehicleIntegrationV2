@@ -13,9 +13,9 @@ namespace AutomatedVehicleIntegrationV2
     {
         public static List<Car> fullCarList;
 
-        public ControlCenter(MainTimer mainTimer)
+        public ControlCenter(MainTimer t)
         {
-            Subscribe(mainTimer);
+            t.GlobalTick += DebugFunc; // subscribe timer
         }
 
         private void DebugFunc()
@@ -23,10 +23,5 @@ namespace AutomatedVehicleIntegrationV2
              Debug.WriteLine("Tick heared");
         }
         
-
-        public void Subscribe(MainTimer t)
-        {
-            t.GlobalTick += DebugFunc;
-        }
     }
 }
