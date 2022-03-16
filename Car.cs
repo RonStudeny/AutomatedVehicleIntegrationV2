@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AutomatedVehicleIntegrationV2
 {
@@ -20,15 +21,16 @@ namespace AutomatedVehicleIntegrationV2
             CarId = id;
             RouteLength = routeLength;
             RoadType = roadType;
-            // t.GlobalTick += // subscribe timer
+            t.GlobalTick += OnTick; // subscribe timer
+            EnRoute = true;
         }
 
         #region properties
         public Guid CarId { get; set; }
         public double SpeedKmh
         {
-            get { return speedKmh; }
-            set { speedKmh = SpeedMs * 3.6; }
+            get { return SpeedMs * 3.6; }
+            set { speedKmh = value; }
         }
         public double SpeedMs { get; set; } // for calculation
         public double RouteLength { get; set; }
@@ -36,10 +38,11 @@ namespace AutomatedVehicleIntegrationV2
 
         public double RouteProgressPercent
         {
-            get { return routeProgressPercent; }
-            set { routeProgressPercent = (RouteProgress / RouteLength) * 100; }
+            get { return (RouteProgress / RouteLength) * 100;}
+            set { routeProgressPercent = value; }
         }
         public bool LightState { get; set; }
+        public bool EnRoute { get; set; }
         public RoadTypes RoadType { get; set; }
         #endregion
 
@@ -47,17 +50,28 @@ namespace AutomatedVehicleIntegrationV2
 
         private void OnTick()
         {
+            CorrectSpeed();
             MoveCar();
         }
 
+        private void CorrectSpeed()
+        {
+            SpeedMs = 130;
+        }
 
 
         private void MoveCar()
         {
-            RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
-            if (RouteProgress >= RouteLength) CarFinishedEvent(this.CarId);
-
-
+            if (EnRoute)
+            {
+                RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
+                Debug.WriteLine(RouteProgressPercent);
+                if (RouteProgress >= RouteLength)
+                {
+                    EnRoute = false;
+                    CarFinishedEvent(CarId);
+                }
+            }
         }
 
     }

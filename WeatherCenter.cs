@@ -14,12 +14,10 @@ namespace AutomatedVehicleIntegrationV2
         public WeatherCenter(MainTimer t)
         {
             t.GlobalTick += OnTick; // subscribe timer
+            currentWeather = GetWeather();
         }
         
-        private void OnTick()
-        {
-
-        }
+        private void OnTick() => currentWeather = RandomTick.NewTick(80) == true ? GetWeather() : currentWeather;
 
         private Weather GetWeather()
         {

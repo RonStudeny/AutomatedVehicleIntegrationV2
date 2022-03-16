@@ -13,16 +13,37 @@ namespace AutomatedVehicleIntegrationV2
     public class ControlCenter
     {
         public static List<Car> fullCarList;
-
-        public ControlCenter(MainTimer t)
+        public ControlCenter(MainTimer t, List<Car> cars)
         {
-            t.GlobalTick += DebugFunc; // subscribe timer
+            fullCarList = cars;
+            t.GlobalTick += OnTick; // subscribe timer
+            foreach (var c in fullCarList) // subscribe to car events
+            {
+                c.CarFinishedEvent += OnCarFinished;
+            }
         }
 
-        private void DebugFunc()
+        private void OnTick()
         {
-             Debug.WriteLine("Tick heared");
+
         }
-        
+
+        private void OnCarFinished(Guid carID)
+        {
+            Debug.WriteLine("Caught car finished event");
+        }
+
+        public static List<Car> GetCars(int numOfCars, MainTimer t) // WIP - creates a desired ammount of car instances
+        {
+            List<Car> res = new List<Car>();
+
+            for (int i = 0; i < numOfCars; i++)
+            {
+                Car newCar = new Car(t, new Guid(), 3500);
+                res.Add(newCar);
+            }
+            return res;
+        }
+
     }
 }

@@ -21,7 +21,8 @@ namespace AutomatedVehicleIntegrationV2
         {
             InitializeComponent();
             MainTimer mainTimer = new MainTimer();
-            ControlCenter controlCenter = new ControlCenter(mainTimer);
+            ControlCenter controlCenter = new ControlCenter(mainTimer, ControlCenter.GetCars(1, mainTimer));
+
         }
     }
 }
