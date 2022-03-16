@@ -9,7 +9,9 @@ namespace AutomatedVehicleIntegrationV2
 {
     public class Car
     {
+        private delegate void InternalChangeHandler();
         public event CarUpdateHandler CarFinishedEvent;
+        private event InternalChangeHandler CarChangedEvent;
 
         #region fields
         private double speedKmh;
@@ -21,26 +23,18 @@ namespace AutomatedVehicleIntegrationV2
             CarId = id;
             RouteLength = routeLength;
             RoadType = roadType;
-            t.GlobalTick += OnTick; // subscribe timer
+            t.GlobalTickEvent += OnTick; // subscribe timer
+            CarChangedEvent += OnChange; // subscribe to internal changes
             EnRoute = true;
         }
 
         #region properties
         public Guid CarId { get; set; }
-        public double SpeedKmh
-        {
-            get { return SpeedMs * 3.6; }
-            set { speedKmh = value; }
-        }
+        public double SpeedKmh { get { return SpeedMs * 3.6; } } // get only
         public double SpeedMs { get; set; } // for calculation
         public double RouteLength { get; set; }
         public double RouteProgress { get; set; }
-
-        public double RouteProgressPercent
-        {
-            get { return (RouteProgress / RouteLength) * 100;}
-            set { routeProgressPercent = value; }
-        }
+        public double RouteProgressPercent { get { return (RouteProgress / RouteLength) * 100; } } // get only
         public bool LightState { get; set; }
         public bool EnRoute { get; set; }
         public RoadTypes RoadType { get; set; }
@@ -48,17 +42,49 @@ namespace AutomatedVehicleIntegrationV2
 
         public enum RoadTypes { Normal, Highway, Tunnel, Bridge };
 
-        private void OnTick()
+        private void OnTick() // Triggers every global tick, caused by MainTimer class
         {
-            CorrectSpeed();
             MoveCar();
+            RoadChanger();
+            AccidentCheck();
         }
 
-        private void CorrectSpeed()
+        private void OnChange() // Triggers every time there is an internal change in the car
         {
-            SpeedMs = 130;
+            CorrectStats();
         }
 
+        private void CorrectStats() // speed and light state correction determined by current road type and additionaly weather conditions
+        {
+            switch (RoadType)
+            {
+                case RoadTypes.Normal:
+                    SpeedMs = 50 / 3.6;
+                    break;
+                case RoadTypes.Highway:
+                    SpeedMs = 130 / 3.6;
+                    break;
+                case RoadTypes.Tunnel:
+                    SpeedMs = 110 / 3.6;
+                    break;
+                case RoadTypes.Bridge:
+                    SpeedMs = (130 / 3.6) - WeatherCenter.RecommendedSlowDown;
+                    break;
+            }
+            LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
+        }
+
+
+
+        private void RoadChanger() // makes sure the road is changed regularly
+        {
+            CarChangedEvent?.Invoke();
+        }
+
+        private void AccidentCheck() // makes sure that accidents happen... occasionally 
+        {
+            CarChangedEvent?.Invoke();
+        }
 
         private void MoveCar()
         {

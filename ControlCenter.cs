@@ -16,7 +16,7 @@ namespace AutomatedVehicleIntegrationV2
         public ControlCenter(MainTimer t, List<Car> cars)
         {
             fullCarList = cars;
-            t.GlobalTick += OnTick; // subscribe timer
+            t.GlobalTickEvent += OnTick; // subscribe timer
             foreach (var c in fullCarList) // subscribe to car events
             {
                 c.CarFinishedEvent += OnCarFinished;
@@ -25,7 +25,7 @@ namespace AutomatedVehicleIntegrationV2
 
         private void OnTick()
         {
-
+            Debug.WriteLine(WeatherCenter.RecommendedSlowDown);
         }
 
         private void OnCarFinished(Guid carID)

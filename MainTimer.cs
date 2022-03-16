@@ -9,7 +9,7 @@ namespace AutomatedVehicleIntegrationV2
 
     public class MainTimer
     {
-        public event GlobalTickHandler GlobalTick;
+        public event GlobalTickHandler GlobalTickEvent;
 
         private const int tickInterval = 1000; // ms
 
@@ -20,7 +20,7 @@ namespace AutomatedVehicleIntegrationV2
             while (true)
             {
                 await Task.Delay(tickInterval);
-                GlobalTick();
+                GlobalTickEvent();
             }
 
         }
