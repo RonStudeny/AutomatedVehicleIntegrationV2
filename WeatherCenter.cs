@@ -13,11 +13,24 @@ namespace AutomatedVehicleIntegrationV2
 
         public WeatherCenter(MainTimer t)
         {
-            t.GlobalTick += OnTick; // subscribe timer
+            t.GlobalTickEvent += OnTick; // subscribe timer
             currentWeather = GetWeather();
         }
-        
-        private void OnTick() => currentWeather = RandomTick.NewTick(80) == true ? GetWeather() : currentWeather;
+
+        public static double RecommendedSlowDown // the speed (m/s) by which the car should slow down if on a bridge, determined by current weather conditions
+        {
+            get
+            {
+                double temp =
+                    currentWeather.WeatherType != Weather.WeatherTypes.Sunny ? 0 :
+                    currentWeather.WeatherType == Weather.WeatherTypes.Snowing ? 25 : 10;
+                temp += currentWeather.Wind / 10;
+                return Math.Round(temp / 3.6, 2);
+            }
+        }
+
+
+        private void OnTick() => currentWeather = RandomTick.NewTick(8) == true ? GetWeather() : currentWeather;
 
         private Weather GetWeather()
         {
