@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainTimer.cs" />
+    <Compile Include="RandomTick.cs" />
     <Compile Include="Weather.cs" />
     <Compile Include="WeatherCenter.cs" />
     <Page Include="MainWindow.xaml">

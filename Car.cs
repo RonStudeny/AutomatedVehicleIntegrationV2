@@ -50,10 +50,13 @@ namespace AutomatedVehicleIntegrationV2
             MoveCar();
         }
 
+
+
         private void MoveCar()
         {
             RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
             if (RouteProgress >= RouteLength) CarFinishedEvent(this.CarId);
+
 
         }
 
