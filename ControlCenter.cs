@@ -9,6 +9,7 @@ namespace AutomatedVehicleIntegrationV2
 {
     public delegate void GlobalTickHandler();
     public delegate void CarUpdateHandler(Guid carId);
+    public delegate void CarAccidentHandler(Car.CarStatusTypes accidentType, Guid carID);
 
     public class ControlCenter
     {
@@ -20,6 +21,7 @@ namespace AutomatedVehicleIntegrationV2
             foreach (var c in fullCarList) // subscribe to car events
             {
                 c.CarFinishedEvent += OnCarFinished;
+                c.CarAccidentEvent += OnCarAccident;
             }
         }
 
@@ -31,6 +33,11 @@ namespace AutomatedVehicleIntegrationV2
         private void OnCarFinished(Guid carID)
         {
             Debug.WriteLine("Caught car finished event");
+        }
+
+        private void OnCarAccident(Car.CarStatusTypes accidentType, Guid carId) // triggers
+        {
+
         }
 
         public static List<Car> GetCars(int numOfCars, MainTimer t) // WIP - creates a desired ammount of car instances

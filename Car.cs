@@ -11,11 +11,15 @@ namespace AutomatedVehicleIntegrationV2
     {
         private delegate void InternalChangeHandler();
         public event CarUpdateHandler CarFinishedEvent;
+        public event CarAccidentHandler CarAccidentEvent;
+
         private event InternalChangeHandler CarChangedEvent;
+        Random rng = new Random();
 
         #region fields
         private double speedKmh;
         private double routeProgressPercent;
+        private int roadChangeCounter;
         #endregion
 
         public Car(MainTimer t, Guid id, double routeLength, RoadTypes roadType = RoadTypes.Normal)
@@ -23,8 +27,10 @@ namespace AutomatedVehicleIntegrationV2
             CarId = id;
             RouteLength = routeLength;
             RoadType = roadType;
+            CarStatus = CarStatusTypes.Operational;
             t.GlobalTickEvent += OnTick; // subscribe timer
             CarChangedEvent += OnChange; // subscribe to internal changes
+            roadChangeCounter = defaultRoadChangeChance;
             EnRoute = true;
         }
 
@@ -38,9 +44,13 @@ namespace AutomatedVehicleIntegrationV2
         public bool LightState { get; set; }
         public bool EnRoute { get; set; }
         public RoadTypes RoadType { get; set; }
+        public CarStatusTypes CarStatus { get; set; }
         #endregion
 
         public enum RoadTypes { Normal, Highway, Tunnel, Bridge };
+        public enum CarStatusTypes { Operational, LightAccident, HeavyAccident };
+
+        private const int defaultRoadChangeChance = 50, accidentChance = 1000;
 
         private void OnTick() // Triggers every global tick, caused by MainTimer class
         {
@@ -56,7 +66,7 @@ namespace AutomatedVehicleIntegrationV2
 
         private void CorrectStats() // speed and light state correction determined by current road type and additionaly weather conditions
         {
-            switch (RoadType)
+            switch (this.RoadType)
             {
                 case RoadTypes.Normal:
                     SpeedMs = 50 / 3.6;
@@ -74,16 +84,25 @@ namespace AutomatedVehicleIntegrationV2
             LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
         }
 
-
-
         private void RoadChanger() // makes sure the road is changed regularly
         {
-            CarChangedEvent?.Invoke();
+            if (RandomTick.NewTick(roadChangeCounter))
+            {
+                RoadType = (RoadTypes)rng.Next(0, 4);
+                roadChangeCounter = defaultRoadChangeChance;
+                CarChangedEvent();
+            }
+            else roadChangeCounter--;
+
         }
 
         private void AccidentCheck() // makes sure that accidents happen... occasionally 
         {
-            CarChangedEvent?.Invoke();
+            if (RandomTick.NewTick(accidentChance))
+            {
+                CarStatus = RandomTick.NewTick(5) ? CarStatusTypes.HeavyAccident : CarStatusTypes.LightAccident;
+                CarAccidentEvent(this.CarStatus, this.CarId);
+            }
         }
 
         private void MoveCar()
