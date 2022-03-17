@@ -30,6 +30,7 @@ namespace AutomatedVehicleIntegrationV2
             CarStatus = CarStatusTypes.Operational;
             t.GlobalTickEvent += OnTick; // subscribe timer
             CarChangedEvent += OnChange; // subscribe to internal changes
+            CorrectStats();
             roadChangeCounter = defaultRoadChangeChance;
             EnRoute = true;
         }
@@ -54,9 +55,12 @@ namespace AutomatedVehicleIntegrationV2
 
         private void OnTick() // Triggers every global tick, caused by MainTimer class
         {
-            MoveCar();
-            RoadChanger();
-            AccidentCheck();
+            if (EnRoute)
+            {
+                MoveCar();
+                RoadChanger();
+                AccidentCheck();
+            }
         }
 
         private void OnChange() // Triggers every time there is an internal change in the car
@@ -72,7 +76,7 @@ namespace AutomatedVehicleIntegrationV2
                     SpeedMs = 50 / 3.6;
                     break;
                 case RoadTypes.Highway:
-                    SpeedMs = 130 / 3.6;
+                    SpeedMs = (130 / 3.6) - (WeatherCenter.RecommendedSlowDown / 2);
                     break;
                 case RoadTypes.Tunnel:
                     SpeedMs = 110 / 3.6;
@@ -90,6 +94,7 @@ namespace AutomatedVehicleIntegrationV2
             {
                 RoadType = (RoadTypes)rng.Next(0, 4);
                 roadChangeCounter = defaultRoadChangeChance;
+          //      Debug.WriteLine($"Car {CarId} now on {RoadType}");
                 CarChangedEvent();
             }
             else roadChangeCounter--;
@@ -101,21 +106,20 @@ namespace AutomatedVehicleIntegrationV2
             if (RandomTick.NewTick(accidentChance))
             {
                 CarStatus = RandomTick.NewTick(5) ? CarStatusTypes.HeavyAccident : CarStatusTypes.LightAccident;
+                EnRoute = false;
+                SpeedMs = 0;
                 CarAccidentEvent(this.CarStatus, this.CarId);
             }
         }
 
         private void MoveCar()
         {
-            if (EnRoute)
+            RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
+            Debug.WriteLine($"car {CarId} speed currently {SpeedKmh}");
+            if (RouteProgress >= RouteLength)
             {
-                RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
-                Debug.WriteLine(RouteProgressPercent);
-                if (RouteProgress >= RouteLength)
-                {
-                    EnRoute = false;
-                    CarFinishedEvent(CarId);
-                }
+                EnRoute = false;
+                CarFinishedEvent(CarId);
             }
         }
 
