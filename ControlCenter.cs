@@ -17,7 +17,7 @@ namespace AutomatedVehicleIntegrationV2
     {
         static Random rng = new Random();
         public static List<Car> fullCarList; // keep all active instances of Car class here for easy access 
-        public ControlCenter(MainTimer t, List<Car> cars)
+        public void Init(MainTimer t, List<Car> cars)
         {
             fullCarList = cars;
             t.GlobalTickEvent += OnTick; // subscribe timer

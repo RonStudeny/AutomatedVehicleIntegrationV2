@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:AutomatedVehicleIntegrationV2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <!--<Window.DataContext>
+        <local:ControlCenter></local:ControlCenter>
+    </Window.DataContext>-->
     <Grid>
         
     </Grid>

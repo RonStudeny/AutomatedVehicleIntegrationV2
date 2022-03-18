@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="MainTimer.cs" />
     <Compile Include="RandomTick.cs" />
+    <Compile Include="Visualization.cs" />
     <Compile Include="Weather.cs" />
     <Compile Include="WeatherCenter.cs" />
     <Page Include="MainWindow.xaml">

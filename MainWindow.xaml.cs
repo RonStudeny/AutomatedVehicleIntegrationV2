@@ -22,8 +22,8 @@ namespace AutomatedVehicleIntegrationV2
             InitializeComponent();
             MainTimer mainTimer = new MainTimer();
             WeatherCenter weatherCenter = new WeatherCenter(mainTimer);
-            ControlCenter controlCenter = new ControlCenter(mainTimer, ControlCenter.GetCars(3, mainTimer));
-
+            ControlCenter controlCenter = new ControlCenter();
+            controlCenter.Init(mainTimer, ControlCenter.GetCars(3, mainTimer));
         }
     }
 }
