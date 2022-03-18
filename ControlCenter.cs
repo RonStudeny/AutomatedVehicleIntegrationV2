@@ -15,7 +15,8 @@ namespace AutomatedVehicleIntegrationV2
 
     public class ControlCenter
     {
-        public static List<Car> fullCarList;
+        static Random rng = new Random();
+        public static List<Car> fullCarList; // keep all active instances of Car class here for easy access 
         public ControlCenter(MainTimer t, List<Car> cars)
         {
             fullCarList = cars;
@@ -29,26 +30,26 @@ namespace AutomatedVehicleIntegrationV2
 
         private void OnTick()
         {
-            Debug.WriteLine(WeatherCenter.RecommendedSlowDown);
+           // Debug.WriteLine(WeatherCenter.RecommendedSlowDown);
         }
 
-        private void OnCarFinished(Guid carID)
+        private void OnCarFinished(Guid carID) // triggers when the given car has finished it's assigned route
         {
-            Debug.WriteLine("Caught car finished event");
+            Debug.WriteLine($"car {carID} has finished");
         }
 
-        private void OnCarAccident(Car.CarStatusTypes accidentType, Guid carId) // triggers
+        private void OnCarAccident(Car.CarStatusTypes accidentType, Guid carId) // triggers when a car crashes
         {
-
+            Debug.WriteLine($" car {carId} has crashed, status: {accidentType}");
         }
 
-        public static List<Car> GetCars(int numOfCars, MainTimer t) // WIP - creates a desired ammount of car instances
+        public static List<Car> GetCars(int numOfCars, MainTimer t) // creates a desired ammount of car instances, configure the distance range in the .Next() function (km)
         {
             List<Car> res = new List<Car>();
 
             for (int i = 0; i < numOfCars; i++)
             {
-                Car newCar = new Car(t, new Guid(), 3500);
+                Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000); // car id and route lenght is generated here
                 res.Add(newCar);
             }
             return res;

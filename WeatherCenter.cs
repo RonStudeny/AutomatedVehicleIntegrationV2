@@ -23,9 +23,9 @@ namespace AutomatedVehicleIntegrationV2
             {
                 double temp =
                     currentWeather.WeatherType != Weather.WeatherTypes.Sunny ? 0 :
-                    currentWeather.WeatherType == Weather.WeatherTypes.Snowing ? 25 : 10;
+                    currentWeather.WeatherType == Weather.WeatherTypes.Snowing ? 35 : 20;
                 temp += currentWeather.Wind / 10;
-                return Math.Round(temp / 3.6, 2);
+                return Math.Round(temp / 3.6, 1);
             }
         }
 
