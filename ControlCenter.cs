@@ -7,9 +7,11 @@ using System.Diagnostics;
 
 namespace AutomatedVehicleIntegrationV2
 {
+    #region delegates
     public delegate void GlobalTickHandler();
     public delegate void CarUpdateHandler(Guid carId);
     public delegate void CarAccidentHandler(Car.CarStatusTypes accidentType, Guid carID);
+    #endregion
 
     public class ControlCenter
     {
