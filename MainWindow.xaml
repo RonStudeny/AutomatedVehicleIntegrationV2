@@ -9,7 +9,123 @@
     <!--<Window.DataContext>
         <local:ControlCenter></local:ControlCenter>
     </Window.DataContext>-->
-    <Grid>
-        
+    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListView ItemsSource="{Binding CarList}" PreviewMouseLeftButtonUp="listView_Click">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
+                        <TextBlock Text="{Binding ID}"  FontSize="20"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--<TextBlock 
+            Name="testbox"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Width="100" Height="300" 
+            Margin="0 0 0 0">
+        </TextBlock>-->
+        <ProgressBar 
+            Name="CarProgBar" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Bottom"
+            Width="500" Height="30" 
+            Value="0" 
+            Grid.Column="1"
+            Margin="0 0 0 60">
+        </ProgressBar>
+        <ProgressBar 
+            Name="RepairProgBar" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Bottom"
+            Width="400" Height="20" 
+            Value="0" 
+            Grid.Column="1"
+            Margin="0 0 0 30">
+        </ProgressBar>
+        <Label 
+            x:Name="CarNamelbl"
+            Content="CarTemplate" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Top"
+            FontSize="30"
+            FontWeight="Bold"
+            Grid.Column="1"
+            Margin="0 0 0 100">
+        </Label>
+        <Label 
+            Content="Speed:" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            FontSize="20"
+            Grid.Column="1"
+            FontWeight="Bold"
+            Margin="93,115,387,269" Height="35" Width="86">
+        </Label>
+        <Label 
+            Content="Status:" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            FontSize="20"
+            Grid.Column="1"
+            FontWeight="Bold"
+            Margin="93,150,396,234" Height="35" Width="77">
+        </Label>
+
+        <Label 
+            Content="Road Type:" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Margin="52,185,396,199" Height="35" Width="118" Grid.Column="1"/>
+        <Label 
+            Content="Lights:" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            FontSize="20"
+            Grid.Column="1"
+            FontWeight="Bold"
+            Margin="93,220,400,157" Height="42" Width="73" RenderTransformOrigin="-0.608,1.149">
+        </Label>
+        <Label 
+            Content="Weather:" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            FontSize="20"
+            Grid.Column="1"
+            FontWeight="Bold"
+            Margin="68,255,400,129" Height="35" Width="98">
+        </Label>
+        <TextBlock
+            x:Name="SpeedTxBlk"
+            FontSize="20"
+            Grid.Column="1"  Margin="190,115,86,269" RenderTransformOrigin="0.495,0.687"/>
+        <TextBlock
+            x:Name="StatusTxBlk"
+            FontSize="20"
+            Grid.Column="1"  Margin="190,150,86,234"/>
+        <TextBlock 
+            x:Name="RoadTypeTxBlk"
+            FontSize="20"
+            Grid.Column="1"  Margin="190,185,86,199"/>
+        <TextBlock
+            x:Name="LightsTxBlk"
+            FontSize="20"
+            Grid.Column="1" Margin="190,220,86,164"/>
+        <TextBlock
+            x:Name="WeatherTxBlk"
+            FontSize="20"
+            Grid.Column="1" Margin="190,255,86,129"/>
+        <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="348,293,0,0" VerticalAlignment="Top" Width="93" Click="Button_Click"/>
     </Grid>
 </Window>
