@@ -88,6 +88,7 @@ namespace AutomatedVehicleIntegrationV2
             LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
         }
 
+        #region On Tick Functions
         private void RoadChanger() // makes sure the road is changed regularly
         {
             if (RandomTick.NewTick(roadChangeCounter))
@@ -98,8 +99,9 @@ namespace AutomatedVehicleIntegrationV2
                 CarChangedEvent();
             }
             else roadChangeCounter--;
-
         }
+
+
 
         private void AccidentCheck() // makes sure that accidents happen... occasionally 
         {
@@ -122,6 +124,6 @@ namespace AutomatedVehicleIntegrationV2
                 CarFinishedEvent(CarId);
             }
         }
-
+        #endregion
     }
 }
