@@ -16,10 +16,10 @@
         </Grid.RowDefinitions>
         <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView">
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                <DataTemplate x:Name="LstData">
+                    <StackPanel Orientation="Horizontal" x:Name="LstStack">
                         <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
-                        <TextBlock Text="{Binding ID}"  FontSize="20"/>
+                        <TextBlock FontSize="20" x:Name="CarNumberTextBlock"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

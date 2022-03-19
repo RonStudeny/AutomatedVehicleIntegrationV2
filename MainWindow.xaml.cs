@@ -24,7 +24,7 @@ namespace AutomatedVehicleIntegrationV2
             controlCenter.Init(mainTimer, ControlCenter.GetCars(3, mainTimer));
             Binding Listviewbinding = new Binding();
             Listviewbinding.Source = ControlCenter.fullCarList;
-            SpeedTxBlk.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
+            CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
             
         }
         private Car selectedCar;
