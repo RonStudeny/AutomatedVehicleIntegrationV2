@@ -49,7 +49,7 @@ namespace AutomatedVehicleIntegrationV2
 
             for (int i = 0; i < numOfCars; i++)
             {
-                Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000); // car id and route lenght is generated here
+                Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, i); // car id and route lenght is generated here
                 res.Add(newCar);
             }
             return res;

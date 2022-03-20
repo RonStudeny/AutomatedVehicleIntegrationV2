@@ -25,7 +25,7 @@ namespace AutomatedVehicleIntegrationV2
             Binding Listviewbinding = new Binding();
             Listviewbinding.Source = ControlCenter.fullCarList;
             CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
-            
+            mainTimer.GlobalTickEvent += ChangeUItoCar();
         }
         private Car selectedCar;
         private void listView_Click(object sender, RoutedEventArgs e) {
@@ -33,9 +33,33 @@ namespace AutomatedVehicleIntegrationV2
             var item = (sender as ListView).SelectedItem;
             if(item != null) {
                 selectedCar = ControlCenter.fullCarList[(sender as ListView).SelectedIndex];
-                MessageBox.Show(selectedCar.CarId.ToString());
             }
-
+            ChangeUItoCar();
+        }
+        public void ChangeUItoCar() {
+            int Carindex = 0;
+            if(selectedCar != null) {
+                Carindex = selectedCar.CarNumber;
+            }
+                CarNamelbl.Content = "Car " + (Carindex + 1);
+                Binding Speedbinding = new Binding();
+                Speedbinding.Source = ControlCenter.fullCarList[Carindex].SpeedKmh;
+                SpeedTxBlk.SetBinding(TextBlock.TextProperty, Speedbinding);
+                Binding Statusbinding = new Binding();
+                Statusbinding.Source = ControlCenter.fullCarList[Carindex].EnRoute;
+                StatusTxBlk.SetBinding(TextBlock.TextProperty, Statusbinding);
+                Binding Roadbinding = new Binding();
+                Roadbinding.Source = ControlCenter.fullCarList[Carindex].RoadType;
+                RoadTypeTxBlk.SetBinding(TextBlock.TextProperty, Roadbinding);
+                Binding Lightbinding = new Binding();
+                Lightbinding.Source = ControlCenter.fullCarList[Carindex].LightState;
+                LightsTxBlk.SetBinding(TextBlock.TextProperty, Lightbinding);
+                //Binding WeatherBinding = new Binding();
+                //WeatherBinding.Source = WeatherCenter.WeatherText;
+                //WeatherTxBlk.SetBinding(TextBlock.TextProperty, WeatherBinding);
+                
+                
+            
         }
         
     }

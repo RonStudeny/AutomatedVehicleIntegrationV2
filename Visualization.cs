@@ -8,6 +8,8 @@ namespace AutomatedVehicleIntegrationV2
 {
     public class Visualization
     {
+        public Visualization(MainWindow mainWindow) {
 
+        }
     }
 }

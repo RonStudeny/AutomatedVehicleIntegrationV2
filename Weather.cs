@@ -13,6 +13,5 @@ namespace AutomatedVehicleIntegrationV2
         public bool GoodLightConditions { get; set; }
         public WeatherTypes WeatherType { get; set; }
         public enum WeatherTypes { Sunny, Raining, Storm, Snowing}
-
-    }
+	}
 }
