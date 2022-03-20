@@ -10,7 +10,7 @@ namespace AutomatedVehicleIntegrationV2
     #region delegates
     public delegate void GlobalTickHandler();
     public delegate void CarUpdateHandler(Guid carId);
-    public delegate void CarAccidentHandler(Car.CarStatusTypes accidentType, Guid carID);
+    public delegate void CarAccidentHandler(Guid carID);
     #endregion
 
     public class ControlCenter
@@ -38,9 +38,9 @@ namespace AutomatedVehicleIntegrationV2
             Debug.WriteLine($"car {carID} has finished");
         }
 
-        private void OnCarAccident(Car.CarStatusTypes accidentType, Guid carId) // triggers when a car crashes
+        private void OnCarAccident(Guid carId) // triggers when a car crashes
         {
-            Debug.WriteLine($" car {carId} has crashed, status: {accidentType}");
+           // Debug.WriteLine($" car {carId} has crashed, status: {accidentType}");
         }
 
         public static List<Car> GetCars(int numOfCars, MainTimer t) // creates a desired ammount of car instances, configure the distance range in the .Next() function (km)

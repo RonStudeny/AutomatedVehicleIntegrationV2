@@ -33,6 +33,7 @@ namespace AutomatedVehicleIntegrationV2
             CorrectStats();
             roadChangeCounter = defaultRoadChangeChance;
             EnRoute = true;
+            BeingTowed = false;
         }
 
         #region properties
@@ -44,6 +45,7 @@ namespace AutomatedVehicleIntegrationV2
         public double RouteProgressPercent { get { return (RouteProgress / RouteLength) * 100; } } // get only
         public bool LightState { get; set; }
         public bool EnRoute { get; set; }
+        public bool BeingTowed { get; set; }
         public RoadTypes RoadType { get; set; }
         public CarStatusTypes CarStatus { get; set; }
         #endregion
@@ -70,22 +72,30 @@ namespace AutomatedVehicleIntegrationV2
 
         private void CorrectStats() // speed and light state correction determined by current road type and additionaly weather conditions
         {
-            switch (this.RoadType)
+            if (CarStatus == CarStatusTypes.Operational)
             {
-                case RoadTypes.Normal:
-                    SpeedMs = 50 / 3.6;
-                    break;
-                case RoadTypes.Highway:
-                    SpeedMs = (130 / 3.6) - (WeatherCenter.RecommendedSlowDown / 2);
-                    break;
-                case RoadTypes.Tunnel:
-                    SpeedMs = 110 / 3.6;
-                    break;
-                case RoadTypes.Bridge:
-                    SpeedMs = (130 / 3.6) - WeatherCenter.RecommendedSlowDown;
-                    break;
+                switch (this.RoadType)
+                {
+                    case RoadTypes.Normal:
+                        SpeedMs = 50 / 3.6;
+                        break;
+                    case RoadTypes.Highway:
+                        SpeedMs = (130 / 3.6) - (WeatherCenter.RecommendedSlowDown / 2);
+                        break;
+                    case RoadTypes.Tunnel:
+                        SpeedMs = 110 / 3.6;
+                        break;
+                    case RoadTypes.Bridge:
+                        SpeedMs = (130 / 3.6) - WeatherCenter.RecommendedSlowDown;
+                        break;
+                }
+                LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
             }
-            LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
+            else if (CarStatus == CarStatusTypes.LightAccident)
+            {
+                SpeedMs = RoadType == RoadTypes.Normal ? 50 : 80;
+            }
+
         }
 
         #region On Tick Functions
@@ -110,7 +120,13 @@ namespace AutomatedVehicleIntegrationV2
                 CarStatus = RandomTick.NewTick(5) ? CarStatusTypes.HeavyAccident : CarStatusTypes.LightAccident;
                 EnRoute = false;
                 SpeedMs = 0;
-                CarAccidentEvent(this.CarStatus, this.CarId);
+                if (CarStatus == CarStatusTypes.LightAccident)
+                {
+                    RouteLength = Math.Round(RouteLength / 2);
+                    CarChangedEvent();
+                    EnRoute = true;
+                }
+                else CarAccidentEvent(this.CarId);
             }
         }
 
