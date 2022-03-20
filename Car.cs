@@ -138,6 +138,7 @@ namespace AutomatedVehicleIntegrationV2
             if (RouteProgress >= RouteLength)
             {
                 EnRoute = false;
+                SpeedMs = 0;
                 CarFinishedEvent(CarId);
             }
         }
