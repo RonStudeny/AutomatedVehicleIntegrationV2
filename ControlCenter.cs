@@ -50,14 +50,15 @@ namespace AutomatedVehicleIntegrationV2
             CarCount = numOfCars;
             for (int i = 0; i < numOfCars; i++)
             {
-                Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, i); // car id and route lenght is generated here
+                Car newCar = new Car(t, Guid.NewGuid(), rng.Next(1, 2) * 1000, i); // car id and route lenght is generated here
                 res.Add(newCar);
             }
             return res;
         }
 
         public static void CreateCar(MainTimer t) {
-            Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, CarCount + 1);
+            Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, CarCount);
+            CarCount++;
         }
 
     }

@@ -134,7 +134,7 @@ namespace AutomatedVehicleIntegrationV2
         private void MoveCar()
         {
             RouteProgress += RouteProgress < RouteLength ? SpeedMs : 0;
-            Debug.WriteLine($"car {CarId} speed currently {SpeedKmh}");
+            Debug.WriteLine($"car {CarNumber} speed currently {SpeedKmh}");
             if (RouteProgress >= RouteLength)
             {
                 EnRoute = false;
