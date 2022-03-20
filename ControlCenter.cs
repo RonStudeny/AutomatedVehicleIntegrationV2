@@ -17,6 +17,7 @@ namespace AutomatedVehicleIntegrationV2
     {
         static Random rng = new Random();
         public static List<Car> fullCarList; // keep all active instances of Car class here for easy access 
+        public static int CarCount { get; set; }
         public void Init(MainTimer t, List<Car> cars)
         {
             fullCarList = cars;
@@ -46,13 +47,17 @@ namespace AutomatedVehicleIntegrationV2
         public static List<Car> GetCars(int numOfCars, MainTimer t) // creates a desired ammount of car instances, configure the distance range in the .Next() function (km)
         {
             List<Car> res = new List<Car>();
-
+            CarCount = numOfCars;
             for (int i = 0; i < numOfCars; i++)
             {
                 Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, i); // car id and route lenght is generated here
                 res.Add(newCar);
             }
             return res;
+        }
+
+        public static void CreateCar(MainTimer t) {
+            Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, CarCount + 1);
         }
 
     }
