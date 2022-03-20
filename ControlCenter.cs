@@ -10,7 +10,7 @@ namespace AutomatedVehicleIntegrationV2
     #region delegates
     public delegate void GlobalTickHandler();
     public delegate void CarUpdateHandler(Guid carId);
-    public delegate void CarAccidentHandler(Guid carID);
+    public delegate void WeatherChangeHandler();
     #endregion
 
     public class ControlCenter

@@ -10,7 +10,7 @@ namespace AutomatedVehicleIntegrationV2
     public class Car {
         private delegate void InternalChangeHandler();
         public event CarUpdateHandler CarFinishedEvent;
-        public event CarAccidentHandler CarAccidentEvent;
+        public event CarUpdateHandler CarAccidentEvent;
 
         private event InternalChangeHandler CarChangedEvent;
         Random rng = new Random();
@@ -29,6 +29,7 @@ namespace AutomatedVehicleIntegrationV2
             CarStatus = CarStatusTypes.Operational;
             t.GlobalTickEvent += OnTick; // subscribe timer
             CarChangedEvent += OnChange; // subscribe to internal changes
+            WeatherCenter.WeatherUpdateEvent += OnChange;
             CorrectStats();
             roadChangeCounter = defaultRoadChangeChance;
             EnRoute = true;
@@ -65,14 +66,14 @@ namespace AutomatedVehicleIntegrationV2
             }
         }
 
-        private void OnChange() // Triggers every time there is an internal change in the car
+        private void OnChange() // Triggers every time there is a change regarding the car
         {
             CorrectStats();
         }
 
         private void CorrectStats() // speed and light state correction determined by current road type and additionaly weather conditions
         {
-            if (CarStatus == CarStatusTypes.Operational)
+            if (CarStatus == CarStatusTypes.Operational && EnRoute)
             {
                 switch (this.RoadType)
                 {
@@ -91,7 +92,7 @@ namespace AutomatedVehicleIntegrationV2
                 }
                 LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
             }
-            else if (CarStatus == CarStatusTypes.LightAccident)
+            else if (CarStatus == CarStatusTypes.LightAccident && EnRoute)
             {
                 SpeedMs = RoadType == RoadTypes.Normal ? 50 : 80;
             }
