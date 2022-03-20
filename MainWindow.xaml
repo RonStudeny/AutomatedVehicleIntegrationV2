@@ -14,18 +14,18 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid x:Name="LeftGrid">
+        <Grid x:Name="LeftGrid" Background="AliceBlue">
             <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button x:Name="AddCar" Height="100" Width="auto" Grid.Row="0"></Button>
+            <Button x:Name="AddCar" Height="60" Grid.Row="0"></Button>
             <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView" Grid.Row="1">
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="LstData">
-                        <StackPanel Orientation="Horizontal" x:Name="LstStack">
+                        <StackPanel Orientation="Horizontal" x:Name="LstStack" Height="50">
                             <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
                             <TextBlock FontSize="20" x:Name="CarNumberTextBlock"/>
                         </StackPanel>
@@ -133,6 +133,6 @@
             x:Name="WeatherTxBlk"
             FontSize="20"
             Grid.Column="1" Margin="190,255,86,129"/>
-        <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="348,293,0,0" VerticalAlignment="Top" Width="93" />
+        <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="348,293,0,0" VerticalAlignment="Top" Width="93" Click="Button_Click" />
     </Grid>
 </Window>
