@@ -25,7 +25,7 @@ namespace AutomatedVehicleIntegrationV2
             Binding Listviewbinding = new Binding();
             Listviewbinding.Source = ControlCenter.fullCarList;
             CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
-            mainTimer.GlobalTickEvent += ChangeUItoCar();
+            mainTimer.GlobalTickEvent += ChangeUItoCar;
         }
         private Car selectedCar;
         private void listView_Click(object sender, RoutedEventArgs e) {
