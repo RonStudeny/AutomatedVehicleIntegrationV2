@@ -42,10 +42,10 @@ namespace AutomatedVehicleIntegrationV2
             if(selectedCar != null) {
                 Carindex = selectedCar.CarNumber;
             }
-                CarListView.ItemsSource = ControlCenter.fullCarList;
-                //Binding Listviewbinding = new Binding();
-                //Listviewbinding.Source = ControlCenter.fullCarList;
-                //CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
+                //CarListView.ItemsSource = ControlCenter.fullCarList;
+                Binding Listviewbinding = new Binding();
+                Listviewbinding.Source = ControlCenter.fullCarList;
+                CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
                 CarNamelbl.Content = "Car " + (Carindex + 1);
                 Binding Speedbinding = new Binding();
                 Speedbinding.Source = ControlCenter.fullCarList[Carindex].SpeedKmh;
@@ -65,8 +65,8 @@ namespace AutomatedVehicleIntegrationV2
                 CarProgBar.Value = ControlCenter.fullCarList[Carindex].RouteProgressPercent;
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e) {
-            ControlCenter.CreateCar(MainTimer);
-		}
+		//private void Button_Click(object sender, RoutedEventArgs e) {
+  //          ControlCenter.CreateCar(MainTimer);
+		//}
 	}
 }
