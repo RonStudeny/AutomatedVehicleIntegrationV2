@@ -7,8 +7,7 @@ using System.Diagnostics;
 
 namespace AutomatedVehicleIntegrationV2
 {
-    public class Car
-    {
+    public class Car {
         private delegate void InternalChangeHandler();
         public event CarUpdateHandler CarFinishedEvent;
         public event CarAccidentHandler CarAccidentEvent;
@@ -22,9 +21,9 @@ namespace AutomatedVehicleIntegrationV2
         private int roadChangeCounter;
         #endregion
 
-        public Car(MainTimer t, Guid id, double routeLength, RoadTypes roadType = RoadTypes.Normal)
-        {
+        public Car(MainTimer t, Guid id, double routeLength, int number, RoadTypes roadType = RoadTypes.Normal ) {
             CarId = id;
+            CarNumber = number;
             RouteLength = routeLength;
             RoadType = roadType;
             CarStatus = CarStatusTypes.Operational;
@@ -48,6 +47,7 @@ namespace AutomatedVehicleIntegrationV2
         public bool BeingTowed { get; set; }
         public RoadTypes RoadType { get; set; }
         public CarStatusTypes CarStatus { get; set; }
+        public int CarNumber {get; set;}
         #endregion
 
         public enum RoadTypes { Normal, Highway, Tunnel, Bridge };

@@ -10,7 +10,6 @@ namespace AutomatedVehicleIntegrationV2
     {
         Random rng = new Random();
         public static Weather currentWeather;
-
         public WeatherCenter(MainTimer t)
         {
             t.GlobalTickEvent += OnTick; // subscribe timer
@@ -28,8 +27,6 @@ namespace AutomatedVehicleIntegrationV2
                 return Math.Round(temp / 3.6, 1);
             }
         }
-
-
         private void OnTick() => currentWeather = RandomTick.NewTick(8) == true ? GetWeather() : currentWeather;
 
         private Weather GetWeather()
@@ -42,5 +39,5 @@ namespace AutomatedVehicleIntegrationV2
             res.GoodLightConditions = res.WeatherType == Weather.WeatherTypes.Sunny ? true : false;
             return res;
         }
-    }
+	}
 }

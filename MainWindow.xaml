@@ -14,16 +14,26 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView">
-            <ListView.ItemTemplate>
-                <DataTemplate x:Name="LstData">
-                    <StackPanel Orientation="Horizontal" x:Name="LstStack">
-                        <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
-                        <TextBlock FontSize="20" x:Name="CarNumberTextBlock"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid x:Name="LeftGrid">
+            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="AddCar" Height="100" Width="auto" Grid.Row="0"></Button>
+            <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView" Grid.Row="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:Name="LstData">
+                        <StackPanel Orientation="Horizontal" x:Name="LstStack">
+                            <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
+                            <TextBlock FontSize="20" x:Name="CarNumberTextBlock"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        
         <!--<TextBlock 
             Name="testbox"
             HorizontalAlignment="Center" 
