@@ -17,6 +17,7 @@ namespace AutomatedVehicleIntegrationV2
 {
     public partial class MainWindow : Window {
         MainTimer MainTimer; // Maintimer for CreateCar
+        Random rnd = new Random();
         public MainWindow() {
             InitializeComponent();
             MainTimer mainTimer = new MainTimer();
@@ -69,8 +70,12 @@ namespace AutomatedVehicleIntegrationV2
                 
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e) {
-
+		private void CreateNewRoute_Click(object sender, RoutedEventArgs e) {
+			if(selectedCar.EnRoute == false) {
+                selectedCar.RouteLength = rnd.Next(1, 6) * 1000;
+                selectedCar.RouteProgress = 0;
+                selectedCar.EnRoute = true;
+			}
 		}
 
 		//private void Button_Click(object sender, RoutedEventArgs e) {
