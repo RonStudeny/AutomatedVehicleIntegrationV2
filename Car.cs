@@ -29,6 +29,7 @@ namespace AutomatedVehicleIntegrationV2
             CarStatus = CarStatusTypes.Operational;
             t.GlobalTickEvent += OnTick; // subscribe timer
             CarChangedEvent += OnChange; // subscribe to internal changes
+            CarFinishedEvent += CarFinished;
             WeatherCenter.WeatherUpdateEvent += OnChange;
             CorrectStats();
             roadChangeCounter = defaultRoadChangeChance;
@@ -56,6 +57,9 @@ namespace AutomatedVehicleIntegrationV2
 
         private const int defaultRoadChangeChance = 50, accidentChance = 1000;
 
+        public void CarFinished(Guid Carid) {
+            
+        }
         private void OnTick() // Triggers every global tick, caused by MainTimer class
         {
             if (EnRoute)

@@ -37,6 +37,7 @@ namespace AutomatedVehicleIntegrationV2
         private void OnCarFinished(Guid carID) // triggers when the given car has finished it's assigned route
         {
             Debug.WriteLine($"car {carID} has finished");
+            
         }
 
         private void OnCarAccident(Guid carId) // triggers when a car crashes
@@ -54,11 +55,6 @@ namespace AutomatedVehicleIntegrationV2
                 res.Add(newCar);
             }
             return res;
-        }
-
-        public static void CreateCar(MainTimer t) {
-            Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, CarCount);
-            CarCount++;
         }
 
     }
