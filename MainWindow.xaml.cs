@@ -63,14 +63,18 @@ namespace AutomatedVehicleIntegrationV2
 			    Binding WeatherBinding = new Binding();
 			    WeatherBinding.Source = WeatherCenter.currentWeather.WeatherType.ToString();
 			    WeatherTxBlk.SetBinding(TextBlock.TextProperty, WeatherBinding);
-                
+                RouteLenghtTxBlk.Text = Math.Round(ControlCenter.fullCarList[Carindex].RouteLength/1000, 2).ToString() + " km";
                 Progresslbl.Content = Math.Round(ControlCenter.fullCarList[Carindex].RouteProgressPercent).ToString() + " / 100";
                 CarProgBar.Value = ControlCenter.fullCarList[Carindex].RouteProgressPercent;
                 
 		}
 
+		private void Button_Click(object sender, RoutedEventArgs e) {
+
+		}
+
 		//private void Button_Click(object sender, RoutedEventArgs e) {
-  //          ControlCenter.CreateCar(MainTimer);
+		//          ControlCenter.CreateCar(MainTimer);
 		//}
 	}
 }

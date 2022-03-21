@@ -53,7 +53,7 @@
             Grid.Column="1"
             Margin="0 0 0 60">
         </ProgressBar>
-        <ProgressBar 
+        <!--<ProgressBar 
             Name="RepairProgBar" 
             HorizontalAlignment="Center" 
             VerticalAlignment="Bottom"
@@ -61,7 +61,7 @@
             Value="0" 
             Grid.Column="1"
             Margin="0 0 0 30">
-        </ProgressBar>
+        </ProgressBar>-->
         <Label 
             x:Name="CarNamelbl"
             Content="CarTemplate" 
@@ -147,11 +147,12 @@
             FontSize="20"
             Grid.Column="1"
             FontWeight="Bold"
-            Margin="22,238,396,146" Height="35" Width="148"/>
+            Margin="22,238,396,143" Height="38" Width="148"/>
         <TextBlock
             x:Name="RouteLenghtTxBlk"
             FontSize="20"
             Grid.Column="1" Margin="190,238,86,146"/>
+        <Button Content="Create new route" Click="CreateNewRoute_Click" Grid.Column="1" Margin="424,278,33,110"/>
         <!--<Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="348,293,0,0" VerticalAlignment="Top" Width="93" Click="Button_Click" />-->
     </Grid>
 </Window>
