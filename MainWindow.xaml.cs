@@ -20,11 +20,12 @@ namespace AutomatedVehicleIntegrationV2
         public MainWindow() {
             InitializeComponent();
             MainTimer mainTimer = new MainTimer();
-            WeatherCenter weatherCenter = new WeatherCenter(mainTimer);
+            WeatherCenter weatherCenter = new WeatherCenter();
             ControlCenter controlCenter = new ControlCenter();
-            controlCenter.Init(mainTimer, ControlCenter.GetCars(5, mainTimer));
-            mainTimer.GlobalTickEvent += ChangeUItoCar;
+            controlCenter.Init(ControlCenter.GetCars(5));
+            MainTimer.GlobalTickEvent += ChangeUItoCar;
             ChangeUItoCar();
+            selectedCar = ControlCenter.fullCarList[0];
         }
         private Car selectedCar;
         private void listView_Click(object sender, RoutedEventArgs e) {
@@ -40,8 +41,8 @@ namespace AutomatedVehicleIntegrationV2
             if(selectedCar != null) {
                 Carindex = selectedCar.CarNumber;
             }
-
-			    CarListView.ItemsSource = ControlCenter.fullCarList;
+            #region UI
+            CarListView.ItemsSource = ControlCenter.fullCarList;
 			    Binding Listviewbinding = new Binding();
 			    Listviewbinding.Source = ControlCenter.fullCarList;
 			    CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
@@ -64,10 +65,10 @@ namespace AutomatedVehicleIntegrationV2
                 RouteLenghtTxBlk.Text = Math.Round(ControlCenter.fullCarList[Carindex].RouteLength/1000, 2).ToString() + " km";
                 Progresslbl.Content = Math.Round(ControlCenter.fullCarList[Carindex].RouteProgressPercent).ToString() + " / 100";
                 CarProgBar.Value = ControlCenter.fullCarList[Carindex].RouteProgressPercent;
-                
-		}
+            #endregion
+        }
 
-		private void CreateNewRoute_Click(object sender, RoutedEventArgs e) {
+        private void CreateNewRoute_Click(object sender, RoutedEventArgs e) {
 			if(selectedCar.EnRoute == false) {
                 selectedCar.RouteLength = rnd.Next(1, 10) * 1000;
                 selectedCar.RouteProgress = 0;

@@ -16,23 +16,21 @@ namespace AutomatedVehicleIntegrationV2
         Random rng = new Random();
 
         #region fields
-        private double speedKmh;
-        private double routeProgressPercent;
-        private int roadChangeCounter;
+        private int roadChangeCounter, towCarBuffer;
         #endregion
 
-        public Car(MainTimer t, Guid id, double routeLength, int number, RoadTypes roadType = RoadTypes.Normal ) {
+        public Car(Guid id, double routeLength, int number, RoadTypes roadType = RoadTypes.Normal ) {
             CarId = id;
             CarNumber = number;
             RouteLength = routeLength;
             RoadType = roadType;
             CarStatus = CarStatusTypes.Operational;
-            t.GlobalTickEvent += OnTick; // subscribe timer
+            MainTimer.GlobalTickEvent += OnTick; // subscribe timer
             CarChangedEvent += OnChange; // subscribe to internal changes
-            CarFinishedEvent += CarFinished;
             WeatherCenter.WeatherUpdateEvent += OnChange;
             CorrectStats();
             roadChangeCounter = defaultRoadChangeChance;
+            towCarBuffer = defaultTowCarBuffer;
             EnRoute = true;
             BeingTowed = false;
         }
@@ -53,13 +51,10 @@ namespace AutomatedVehicleIntegrationV2
         #endregion
 
         public enum RoadTypes { Normal, Highway, Tunnel, Bridge };
-        public enum CarStatusTypes { Operational, LightAccident, HeavyAccident };
+        public enum CarStatusTypes { Operational, LightAccident, HeavyAccident, AwaitingTowCar, BeingTowed };
 
-        private const int defaultRoadChangeChance = 50, accidentChance = 1000;
+        private const int defaultRoadChangeChance = 50, accidentChance = 1000, defaultTowCarBuffer = 10;
 
-        public void CarFinished(Guid Carid) {
-            
-        }
         private void OnTick() // Triggers every global tick, caused by MainTimer class
         {
             if (EnRoute)
@@ -96,12 +91,27 @@ namespace AutomatedVehicleIntegrationV2
                 }
                 LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
             }
-            else if (CarStatus == CarStatusTypes.LightAccident && EnRoute)
-            {
-                SpeedMs = RoadType == RoadTypes.Normal ? 50 : 80;
-            }
-
+            else if (CarStatus == CarStatusTypes.LightAccident && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 : 80;
+            else if (CarStatus == CarStatusTypes.BeingTowed && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 : 100;
+ 
         }
+        #region TowCar
+        private void CallTowCar()
+        {
+            CarStatus = CarStatusTypes.BeingTowed;
+            EnRoute = true;
+        }
+
+        private void TowCarDelay() 
+        {
+             if (towCarBuffer <= 0 )
+            {
+                MainTimer.GlobalTickEvent -= TowCarDelay;
+                CallTowCar();
+            }
+             else towCarBuffer--;
+        }
+        #endregion
 
         #region On Tick Functions
         private void RoadChanger() // makes sure the road is changed regularly
@@ -131,7 +141,13 @@ namespace AutomatedVehicleIntegrationV2
                     CarChangedEvent();
                     EnRoute = true;
                 }
-                else CarAccidentEvent(this.CarId);
+                else
+                {
+                    RouteLength = Math.Round(RouteLength / 2);
+                    CarAccidentEvent(this.CarId);
+                    towCarBuffer = defaultTowCarBuffer;
+                    MainTimer.GlobalTickEvent += TowCarDelay;
+                }
             }
         }
 

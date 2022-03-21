@@ -11,9 +11,9 @@ namespace AutomatedVehicleIntegrationV2
         Random rng = new Random();
         public static Weather currentWeather;
         public static event WeatherChangeHandler WeatherUpdateEvent;
-        public WeatherCenter(MainTimer t)
+        public WeatherCenter()
         {
-            t.GlobalTickEvent += OnTick; // subscribe timer
+            MainTimer.GlobalTickEvent += OnTick; // subscribe timer
             currentWeather = GetWeather();
         }
 

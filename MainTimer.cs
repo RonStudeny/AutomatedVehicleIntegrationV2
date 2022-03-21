@@ -9,7 +9,7 @@ namespace AutomatedVehicleIntegrationV2
 
     public class MainTimer
     {
-        public event GlobalTickHandler GlobalTickEvent;
+        public static event GlobalTickHandler GlobalTickEvent;
 
         private const int tickInterval = 1000; // ms
 
