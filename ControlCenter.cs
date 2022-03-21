@@ -57,10 +57,5 @@ namespace AutomatedVehicleIntegrationV2
             return res;
         }
 
-        //public static void CreateCar(MainTimer t) {
-        //    Car newCar = new Car(t, Guid.NewGuid(), rng.Next(10, 150) * 1000, CarCount);
-        //    CarCount++;
-        //}
-
     }
 }
