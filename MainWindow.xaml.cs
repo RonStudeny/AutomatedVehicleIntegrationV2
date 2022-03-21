@@ -22,7 +22,7 @@ namespace AutomatedVehicleIntegrationV2
             MainTimer mainTimer = new MainTimer();
             WeatherCenter weatherCenter = new WeatherCenter(mainTimer);
             ControlCenter controlCenter = new ControlCenter();
-            controlCenter.Init(mainTimer, ControlCenter.GetCars(12, mainTimer));
+            controlCenter.Init(mainTimer, ControlCenter.GetCars(5, mainTimer));
             mainTimer.GlobalTickEvent += ChangeUItoCar;
             ChangeUItoCar();
         }
@@ -40,12 +40,12 @@ namespace AutomatedVehicleIntegrationV2
             if(selectedCar != null) {
                 Carindex = selectedCar.CarNumber;
             }
-            
-                //CarListView.ItemsSource = ControlCenter.fullCarList;
-                //Binding Listviewbinding = new Binding();
-                //Listviewbinding.Source = ControlCenter.fullCarList;
-                //CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
-                CarNamelbl.Content = "Car " + (Carindex + 1);
+
+			    CarListView.ItemsSource = ControlCenter.fullCarList;
+			    Binding Listviewbinding = new Binding();
+			    Listviewbinding.Source = ControlCenter.fullCarList;
+			    CarListView.SetBinding(ListView.ItemsSourceProperty, Listviewbinding);
+			    CarNamelbl.Content = "Car " + (Carindex + 1);
                 Binding Speedbinding = new Binding();
                 Speedbinding.Source = ControlCenter.fullCarList[Carindex].SpeedKmh + " km/h";
                 SpeedTxBlk.SetBinding(TextBlock.TextProperty, Speedbinding);

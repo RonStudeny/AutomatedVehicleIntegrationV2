@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" MaxHeight="450" MaxWidth="800" MinHeight="450" MinWidth="800">
     <Window.DataContext>
-        <local:ControlCenter></local:ControlCenter>
+        <local:ControlCenter ></local:ControlCenter>
     </Window.DataContext>
-    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" >
+    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -18,12 +18,12 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView" Grid.Row="1" ItemsSource="{Binding Source=fullCarList}" >
+        <ListView PreviewMouseLeftButtonUp="listView_Click" x:Name="CarListView" Grid.Row="1"  >
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="LstData">
                     <StackPanel Orientation="Horizontal" x:Name="LstStack" Height="50">
                         <TextBlock Text="Car " FontWeight="Bold" FontSize="20"/>
-                        <TextBlock FontSize="20" Text="{Binding CarNumber}"/>
+                        <TextBlock FontSize="20" Text=""/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
