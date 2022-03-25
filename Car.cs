@@ -91,8 +91,8 @@ namespace AutomatedVehicleIntegrationV2
                 }
                 LightState = WeatherCenter.currentWeather.GoodLightConditions == false || RoadType == RoadTypes.Tunnel ? true : false;
             }
-            else if (CarStatus == CarStatusTypes.LightAccident && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 : 80;
-            else if (CarStatus == CarStatusTypes.BeingTowed && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 : 100;
+            else if (CarStatus == CarStatusTypes.LightAccident && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 /3.6 : 80 /3.6;
+            else if (CarStatus == CarStatusTypes.BeingTowed && EnRoute) SpeedMs = RoadType == RoadTypes.Normal ? 50 /3.6 : 100 /3.6;
  
         }
         #region TowCar
