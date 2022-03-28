@@ -9,9 +9,9 @@ namespace AutomatedVehicleIntegrationV2
 {
     public class Car {
         private delegate void InternalChangeHandler();
+
         public event CarUpdateHandler CarFinishedEvent;
         public event CarUpdateHandler CarAccidentEvent;
-
         private event InternalChangeHandler CarChangedEvent;
         Random rng = new Random();
 
@@ -137,13 +137,13 @@ namespace AutomatedVehicleIntegrationV2
                 SpeedMs = 0;
                 if (CarStatus == CarStatusTypes.LightAccident)
                 {
-                    RouteLength = Math.Round(RouteLength / 2);
+                    RouteLength = Math.Round((RouteProgress - RouteLength) / 2);
                     CarChangedEvent();
                     EnRoute = true;
                 }
                 else
                 {
-                    RouteLength = Math.Round(RouteLength / 2);
+                    RouteLength = Math.Round((RouteProgress - RouteLength) / 2);
                     CarAccidentEvent(this.CarId);
                     towCarBuffer = defaultTowCarBuffer;
                     MainTimer.GlobalTickEvent += TowCarDelay;
